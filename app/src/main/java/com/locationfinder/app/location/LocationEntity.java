@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "`location`")
+@Table(name = "location")
 public class LocationEntity {
 
     @Id
@@ -27,7 +27,7 @@ public class LocationEntity {
     @Column(name = "name", length = 60, nullable = false)
     private String name;
 
-    @Column(name = "address", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "address", nullable = false)
     private String address;
 
     @Column(name = "longitude", nullable = false)
@@ -43,11 +43,11 @@ public class LocationEntity {
     private LocalTime closingHours;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
     @ManyToOne
-    @JoinColumn(name = "created_by", referencedColumnName = "iduser", nullable = false)
+    @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;
 
     @Column(name = "created_at", nullable = false)

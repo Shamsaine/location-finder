@@ -1,6 +1,7 @@
 package com.locationfinder.app.category;
 
 import java.util.List;
+import com.locationfinder.app.location.LocationEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,6 +32,9 @@ public class CategoryEntity {
 
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
     private List<CategoryEntity> subCategories;
+
+    @OneToMany(mappedBy = "category")
+    private List<LocationEntity> locations;
 
     // Constructors
     public CategoryEntity() {
@@ -72,6 +76,14 @@ public class CategoryEntity {
 
     public void setSubCategories(List<CategoryEntity> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public List<LocationEntity> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<LocationEntity> locations) {
+        this.locations = locations;
     }
 
     @Override
