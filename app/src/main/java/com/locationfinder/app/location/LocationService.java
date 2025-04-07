@@ -1,9 +1,9 @@
 package com.locationfinder.app.location;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class LocationService {
@@ -16,6 +16,10 @@ public class LocationService {
 
     // Create or Update a Location
     public LocationEntity saveLocation(LocationEntity location) {
+        // Ensure the description is handled properly
+        if (location.getDescription() == null || location.getDescription().isEmpty()) {
+            location.setDescription("No description provided.");
+        }
         return locationRepository.save(location);
     }
 

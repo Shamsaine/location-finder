@@ -50,6 +50,9 @@ public class LocationEntity {
     @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -61,7 +64,7 @@ public class LocationEntity {
     }
 
     public LocationEntity(String name, String address, Double longitude, Double latitude, LocalTime openingHours,
-                          LocalTime closingHours, CategoryEntity category, UserEntity createdBy,
+                          LocalTime closingHours, CategoryEntity category, UserEntity createdBy, String description,
                           LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.name = name;
         this.address = address;
@@ -71,6 +74,7 @@ public class LocationEntity {
         this.closingHours = closingHours;
         this.category = category;
         this.createdBy = createdBy;
+        this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -148,6 +152,14 @@ public class LocationEntity {
         this.createdBy = createdBy;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -176,6 +188,7 @@ public class LocationEntity {
                 ", closingHours=" + closingHours +
                 ", category=" + category +
                 ", createdBy=" + createdBy +
+                ", description='" + description + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
