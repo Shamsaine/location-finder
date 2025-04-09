@@ -68,12 +68,12 @@ public class LocationService {
             existingLocation.setClosingHours(updatedLocation.getClosingHours());
             existingLocation.setDescription(updatedLocation.getDescription());
 
-            // Update category if provided
+            // Update category
             if (updatedLocation.getCategory() != null && updatedLocation.getCategory().getCategoryId() != null) {
                 existingLocation.setCategory(updatedLocation.getCategory());
             }
 
-            // Update createdBy if provided
+            // Update created_by
             if (updatedLocation.getCreatedBy() != null && updatedLocation.getCreatedBy().getId() != null) {
                 Optional<UserEntity> user = userRepository.findById(updatedLocation.getCreatedBy().getId());
                 user.ifPresent(existingLocation::setCreatedBy);

@@ -13,8 +13,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "your-256-bit-secret-your-256-bit-secret"; // Use a secure key
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
+    private static final String SECRET_KEY = "your-256-bit-secret-your-256-bit-secret"; 
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10;
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 

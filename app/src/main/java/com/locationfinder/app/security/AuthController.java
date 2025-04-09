@@ -18,7 +18,7 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
-
+    //endpoint to handle user login
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(

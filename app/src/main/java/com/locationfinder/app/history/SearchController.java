@@ -1,12 +1,15 @@
 package com.locationfinder.app.history;
 
-import com.locationfinder.app.history.HistoryService;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.locationfinder.app.location.LocationEntity;
 import com.locationfinder.app.location.LocationRepository;
 import com.locationfinder.app.user.UserEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/search")
