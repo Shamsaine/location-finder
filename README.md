@@ -1,8 +1,3 @@
-Here’s the updated README.md with the requested changes:
-
----
-
-```markdown
 # Location Finder
 
 Location Finder is a web-based application designed to help users search for and view information about various locations such as restaurants, parks, stores, and more. It provides a centralized platform for users to explore location-based information, manage categories, and track search history.
@@ -179,6 +174,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 For questions or support, please contact:
 - **Email**: shamsain3@gmail.com
 - **GitHub**: [shamsaine](https://github.com/shamsaine)
-```
-
----
