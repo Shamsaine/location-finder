@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2 id="form-title">Login</h2>
+
+            <form id="auth-form">
+                <!-- Registration Fields -->
+                <div class="input-group" id="first-name-group" style="display: none;">
+                    <label>First Name</label>
+                    <input type="text" id="first-name">
+                </div>
+
+                <div class="input-group" id="last-name-group" style="display: none;">
+                    <label>Last Name</label>
+                    <input type="text" id="last-name">
+                </div>
+
+                <div class="input-group" id="username-group" style="display: none;">
+                    <label>Username</label>
+                    <input type="text" id="username">
+                </div>
+
+                <!-- Common Fields -->
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="input-group" id="confirm-password-group" style="display: none;">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirm-password">
+                </div>
+
+                <button type="submit" id="submit-btn">Login</button>
+            </form>
+
+            <p id="toggle-text">Don't have an account? <a href="#" id="toggle-link">Register</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between Login and Register forms
+        document.getElementById("toggle-link").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            let formTitle = document.getElementById("form-title");
+            let submitBtn = document.getElementById("submit-btn");
+            let firstNameGroup = document.getElementById("first-name-group");
+            let lastNameGroup = document.getElementById("last-name-group");
+            let usernameGroup = document.getElementById("username-group");
+            let confirmPasswordGroup = document.getElementById("confirm-password-group");
+            let toggleText = document.getElementById("toggle-text");
+
+            if (submitBtn.innerText === "Login") {
+                // Switch to Register
+                formTitle.innerText = "Register";
+                submitBtn.innerText = "Register";
+                firstNameGroup.style.display = "block";
+                lastNameGroup.style.display = "block";
+                usernameGroup.style.display = "block";
+                confirmPasswordGroup.style.display = "block";
+                toggleText.innerHTML = 'Already have an account? <a href="#" id="toggle-link">Login</a>';
+            } else {
+                // Switch to Login
+                formTitle.innerText = "Login";
+                submitBtn.innerText = "Login";
+                firstNameGroup.style.display = "none";
+                lastNameGroup.style.display = "none";
+                usernameGroup.style.display = "none";
+                confirmPasswordGroup.style.display = "none";
+                toggleText.innerHTML = 'Don\'t have an account? <a href="#" id="toggle-link">Register</a>';
+            }
+
+            // Reattach event listener to the newly created link
+            document.getElementById("toggle-link").addEventListener("click", arguments.callee);
+        });
+
+        // Handle form submission
+        document.getElementById("auth-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formTitle = document.getElementById("form-title").innerText;
+            const isRegister = formTitle === "Register";
+
+            // Collect form data
+            const data = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+            };
+
+            if (isRegister) {
+                // Add registration-specific fields
+                data.firstName = document.getElementById("first-name").value;
+                data.lastName = document.getElementById("last-name").value;
+                data.username = document.getElementById("username").value;
+
+                // Validate password confirmation
+                const confirmPassword = document.getElementById("confirm-password").value;
+                if (data.password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+            }
+
+            try {
+                const endpoint = isRegister ? "http://localhost:9090/users" : "http://localhost:9090/auth/login";
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    if (isRegister) {
+                        alert("Registration successful! Please log in.");
+                        document.getElementById("toggle-link").click(); // Switch to login form
+                    } else {
+                        const result = await response.json();
+                        localStorage.setItem("token", result.token); // Save JWT token
+                        alert("Login successful!");
+                        window.location.href = "/";
+                    }
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.message || "An error occurred."}`);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+    </script>
+</body>
+
+</html>

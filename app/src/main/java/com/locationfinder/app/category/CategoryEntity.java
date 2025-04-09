@@ -1,6 +1,8 @@
 package com.locationfinder.app.category;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.locationfinder.app.location.LocationEntity;
 
 import jakarta.persistence.CascadeType;
@@ -34,6 +36,7 @@ public class CategoryEntity {
     private List<CategoryEntity> subCategories;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore // Prevent circular reference during serialization
     private List<LocationEntity> locations;
 
     // Constructors

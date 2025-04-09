@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +43,19 @@ public class LocationController {
     public ResponseEntity<LocationEntity> getLocationById(@PathVariable Integer id) {
         Optional<LocationEntity> location = locationService.getLocationById(id);
         return location.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Update a Location by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<LocationEntity> updateLocation(@PathVariable Integer id, @RequestBody LocationEntity updatedLocation) {
+        Optional<LocationEntity> existingLocation = locationService.getLocationById(id);
+
+        if (existingLocation.isPresent()) {
+            LocationEntity savedLocation = locationService.updateLocation(id, updatedLocation);
+            return ResponseEntity.ok(savedLocation);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Delete a Location by ID

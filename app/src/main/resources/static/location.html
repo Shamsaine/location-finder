@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Details</title>
+    <link rel="stylesheet" href="location.css">
+</head>
+
+<body>
+    <header>
+        <h1>Location Details</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/categories/list.html">Categories</a></li>
+                <li><a href="/locations/list.html">Locations</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="location-details">
+            <h2 id="location-name">Loading...</h2>
+            <p id="location-description"></p>
+            <p><strong>Address:</strong> <span id="location-address"></span></p>
+            <p><strong>Category:</strong> <span id="location-category"></span></p>
+            <p><strong>Created By:</strong> <span id="location-created-by"></span></p>
+            <p><strong>Opening Hours:</strong> <span id="location-opening-hours"></span></p>
+            <p><strong>Closing Hours:</strong> <span id="location-closing-hours"></span></p>
+            <p><strong>Coordinates:</strong> <span id="location-coordinates"></span></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Location Finder. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Fetch location details dynamically
+        async function fetchLocationDetails() {
+            // Get the location ID from the URL query string
+            const params = new URLSearchParams(window.location.search);
+            const locationId = params.get('id');
+
+            if (!locationId) {
+                alert('Location ID is missing!');
+                return;
+            }
+
+            try {
+                // Fetch location details from the backend
+                const response = await fetch(`http://localhost:9090/locations/${locationId}`);
+                if (response.ok) {
+                    const location = await response.json();
+
+                    // Populate the page with location details
+                    document.getElementById('location-name').textContent = location.name;
+                    document.getElementById('location-description').textContent = location.description || 'No description available.';
+                    document.getElementById('location-address').textContent = location.address;
+                    document.getElementById('location-category').textContent = location.category.name;
+                    document.getElementById('location-created-by').textContent = `${location.createdBy.firstName} ${location.createdBy.lastName}`;
+                    document.getElementById('location-opening-hours').textContent = location.openingHours;
+                    document.getElementById('location-closing-hours').textContent = location.closingHours;
+                    document.getElementById('location-coordinates').textContent = `${location.latitude}, ${location.longitude}`;
+                } else {
+                    alert('Failed to fetch location details.');
+                }
+            } catch (error) {
+                console.error('Error fetching location details:', error);
+                alert('An error occurred while fetching location details.');
+            }
+        }
+
+        // Call the function to fetch location details when the page loads
+        fetchLocationDetails();
+    </script>
+</body>
+
+</html>
